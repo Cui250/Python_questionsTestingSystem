@@ -1,0 +1,73 @@
+{#HTML5 : <input>标签的required属性#}
+{% extends "base.html" %}
+{% block title %}
+
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/index.css">
+    <style>
+    .result.correct {
+    color: green;
+}
+
+.result.incorrect {
+    color: red;
+
+}
+    </style>
+{% endblock %}
+{% block body %}
+    <div style="margin: 50px">
+            <div class="col"></div>
+            <div>
+                <form action="{{ url_for('testing.question') }}" method="post">
+                    {% for question in questions %}
+       {{ question.id }}.
+    {{ question.question }}
+       <br>
+       {% for option in question.options %}
+           <input type="radio" name="answer_{{ question.id }}" value="{{ option[0] }}" required id="choice_{{ question.id }}_{{ option[0] }}">
+           <label for="choice_{{ question.id }}_{{ option[0] }}">{{ option }}</label>
+           <br>
+       {% endfor %}
+
+       <br>
+
+       {% if results %}
+
+           <p class="result {% if results.get(question.id)['message'] == '哟哟哟~ 这你都答对了, 可真厉害呀~' %} correct{% elif results.get(question.id)['message'] == '小菜鸡，答错了呢~' %} incorrect{% endif %}">
+                {% if results.get(question.id) %}
+                    正确答案是：{{ results.get(question.id)['correct_answer'] }}
+                    <br>
+                    你选择了：{{ results.get(question.id)['user_answer'] }}
+                    <br>
+                    {{ results.get(question.id)['message'] }}
+                {% endif %}
+            </p>
+
+
+       {% endif %}
+
+
+       <hr>
+
+
+    {% endfor %}
+
+
+
+
+                    <input type="submit" value="交卷">
+                </form>
+</div>
+            {% if results %}
+            	<p>本次练习题目总数：{{ question_number }}题
+            <br>
+            你答对了：{{ count }}题
+            <br>
+            得分：{{ score }}分
+        </p>
+            {% endif %}
+        </div>
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/index.css">
+{% endblock %}
+
+{% block body %}
+    <div class="row" style="margin-top: 20px;">
+            <div class="col"></div>
+            <div>
+
+                <a href="{{ url_for('testing.question') }}" style=" text-decoration: none; color: red; font-size: 5vw;" >点我去答题！</a>
+
+</div>
+            <div class="col"></div>
+        </div>
+    
+
+{% endblock %}
+
