@@ -3,9 +3,9 @@ from flask import Blueprint,render_template,jsonify,redirect,url_for,session
 from exts import mail,db
 from flask_mail import Message
 from flask import request
-from models import EmailCaptchaModel
+from models import emailCaptchaModel
 from .forms import RegisterForm,LoginForm
-from models import UserModel
+from models import userModel
 from werkzeug.security import generate_password_hash,check_password_hash
 
 #（固定，固定，url前缀）
@@ -20,4 +20,5 @@ def userManagement():
 
 @bp.route("/question",methods=['GET','POST'])
 def questionManagement():
+
     return render_template('questionManagement.html')

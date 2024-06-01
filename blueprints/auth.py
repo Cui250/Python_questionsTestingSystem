@@ -7,9 +7,9 @@ from exts import mail,db
 from flask_mail import Message
 from flask import request
 import _string
-from models import EmailCaptchaModel
+from models import emailCaptchaModel
 from .forms import RegisterForm,LoginForm
-from models import UserModel
+from models import userModel
 from werkzeug.security import generate_password_hash,check_password_hash
 
 #（固定，固定，url前缀）
@@ -26,7 +26,7 @@ def login():
         if form.validate():
             email = form.email.data
             password = form.password.data
-            user = UserModel.query.filter_by(email=email).first()
+            user = userModel.query.filter_by(email=email).first()
             if not user:
                 print("用户不存在！")
                 return redirect(url_for("auth.login"))
@@ -72,7 +72,7 @@ def register():
             email = form.email.data
             username = form.username.data
             password = form.password.data
-            user = UserModel(email = email,username = username,password = generate_password_hash(password) )
+            user = userModel(email = email,username = username,password = generate_password_hash(password) )
             db.session.add(user)
             db.session.commit()
             return  redirect(url_for("auth.login"))
@@ -105,7 +105,7 @@ def get_email_captcha():
     mail.send(message)
     # 验证码可以缓存在memcached,redis缓存中
     # 用数据库存储
-    email_captcha = EmailCaptchaModel(email=email, captcha=captcha)
+    email_captcha = emailCaptchaModel(email=email, captcha=captcha)
     db.session.add(email_captcha)
     db.session.commit()
     # RESTful API

@@ -5,7 +5,7 @@ from decorators import login_required
 #导入配置文件
 import config
 from exts import db,mail
-from models import UserModel
+from models import userModel
 from blueprints.auth import bp as auth_bp
 from blueprints.management import bp as management_bp
 from blueprints.testing import bp as testing_bp
@@ -40,7 +40,7 @@ app.register_blueprint(testing_bp)
 def my_before_request():
     user_id = session.get('user_id')
     if user_id:
-        user = UserModel.query.get(user_id)
+        user = userModel.query.get(user_id)
         # g:用来存储全局变量的一个对象，需要导入才能使用
         setattr(g, 'user', user)
     else:

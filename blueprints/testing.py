@@ -3,9 +3,9 @@ from flask import Blueprint,render_template,jsonify,redirect,url_for,session
 from exts import mail,db
 from flask_mail import Message
 from flask import request
-from models import EmailCaptchaModel, ChoiceQuestionModel
+from models import emailCaptchaModel, choiceQuestionModel
 from .forms import RegisterForm,LoginForm
-from models import UserModel
+from models import userModel
 from werkzeug.security import generate_password_hash,check_password_hash
 from decorators import login_required
 from decorators import login_required
@@ -21,7 +21,7 @@ bp = Blueprint('testing', __name__, url_prefix='/testing')
 def question():
     # 如果前端请求题目选项
     if request.method == 'GET':
-        info = ChoiceQuestionModel.query.all()
+        info = choiceQuestionModel.query.all()
         # 初始化session中的questions，如果它还不存在的话
         questions = []
 

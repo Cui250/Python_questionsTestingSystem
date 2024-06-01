@@ -1,6 +1,6 @@
 import wtforms
 from wtforms.validators import Email,Length,EqualTo,InputRequired
-from models import  UserModel,EmailCaptchaModel
+from models import  userModel,emailCaptchaModel
 from exts import db
 
 # form:主要用来验证前端提交的数据是否符合要求
@@ -17,7 +17,7 @@ class RegisterForm(wtforms.Form):
 
     def validate_email(self,field):
         email = field.data
-        user = UserModel.query.filter_by(email=email).first()
+        user = userModel.query.filter_by(email=email).first()
         if user:
             raise wtforms.ValidationError(message="该邮箱已经被注册！")
 
@@ -25,7 +25,7 @@ class RegisterForm(wtforms.Form):
     def validate_captcha(self,field):
         captcha = field.data
         email = self.email.data
-        captcha_model = EmailCaptchaModel.query.filter_by(email=email,captcha=captcha).first()
+        captcha_model = emailCaptchaModel.query.filter_by(email=email,captcha=captcha).first()
         if not captcha_model:
             raise wtforms.ValidationError(message="邮箱或者验证码错误！")
         # #todo:可以删掉captcha_model

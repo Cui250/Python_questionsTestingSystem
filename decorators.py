@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import g,redirect,url_for
+# 创建装饰器，确保用户已经登录才能进行后续操作
 def login_required(func):
     #保留func的信息
     @wraps(func)
