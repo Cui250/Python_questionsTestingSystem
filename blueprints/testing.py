@@ -36,13 +36,13 @@ def question():
             question.update({'answer':i.answer})
             questions.append(question)
 
-            session['questions'] = questions
+            session['questions_testing'] = questions
         # 将处理后的数据传递给模板
         return render_template('testing.html', questions=questions)
 
     # 如果前端提交了答案，进行验证后返回结果
     if request.method == 'POST':
-        questions = session['questions']
+        questions = session['questions_testing']
         # 拿到用户选择的所有答案
         answers = {}
         for answer in request.form:
