@@ -13,7 +13,7 @@ def login_required(func):
             return redirect(url_for('auth.login'))
 
 
-    return inner
+    return  inner
 
 
 def admin_required(func):
