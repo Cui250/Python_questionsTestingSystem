@@ -14,3 +14,18 @@ def login_required(func):
 
 
     return inner
+
+
+def admin_required(func):
+    #保留func的信息
+    @wraps(func)
+    # *args:1,2,3，...
+    # ** kwargs:乱序的关键词参数
+    def inner(*args, **kwargs):
+        if g.user.role == 'admin':
+            return func(*args, **kwargs)
+        else:
+            return redirect(url_for('index'))
+
+
+    return inner
