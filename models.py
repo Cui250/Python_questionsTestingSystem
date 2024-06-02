@@ -6,7 +6,7 @@ class userModel(db.Model):
     username = db.Column(db.String(100),nullable=False)
     password = db.Column(db.String(200),nullable=False)
     email = db.Column(db.String(100),unique = True,nullable=False)
-    role = db.Column(db.String(100),nullable=False)
+    role = db.Column(db.String(100),nullable=True)
     register_time = db.Column(db.DateTime,default=datetime.now)
 
 class emailCaptchaModel(db.Model):
@@ -20,13 +20,13 @@ class emailCaptchaModel(db.Model):
 class choiceQuestionModel(db.Model):
     __tablename__ = 'choicequestion'
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    question = db.Column(db.String(200), nullable=False)
-    option = db.Column(db.String(200), nullable=False)
-    answer = db.Column(db.String(10), nullable=False)
-    analysis = db.Column(db.String(200), nullable=False)
-    course = db.Column(db.String(200), nullable=False)
-    knowledge_point = db.Column(db.String(200), nullable=False)
-    level = db.Column(db.String(200), nullable=False)
+    question = db.Column(db.String(200), nullable=True)
+    option = db.Column(db.String(200), nullable=True)
+    answer = db.Column(db.String(10), nullable=True)
+    analysis = db.Column(db.String(200), nullable=True)
+    course = db.Column(db.String(200), nullable=True)
+    knowledge_point = db.Column(db.String(200), nullable=True)
+    level = db.Column(db.String(200), nullable=True)
 
 class testPaperModel(db.Model):
     __tablename__ = 'test_paper'
