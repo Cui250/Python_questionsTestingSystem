@@ -1,10 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>试题管理页面</title>
-</head>
-<body>
-这里是试题管理页面
-</body>
-</html>
+{#HTML5 : <input>标签的required属性#}
+{% extends "base.html" %}
+{% block title %}
+
+{% endblock %}
+{% block head %}
+    <style>
+        #input-box{
+         display: none;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+
+
+{#    <!-- 触发按钮 -->#}
+{#<button id="showButton">显示输入框</button>#}
+{##}
+{#<!-- 输入框容器，初始时隐藏 -->#}
+{#<div id="input-box" style="display: none;">#}
+{#    <!-- 表单，初始时隐藏 -->#}
+{#    <form method="POST" action="{{ url_for('management.questionManagement') }}" id="question_form_add">#}
+{#        题目：<input type="text" name="question" placeholder="输入题目">#}
+{#        <br>#}
+{#        选项：<textarea name="option" cols="30" rows="4" placeholder="输入选项">#}
+{#A.#}
+{#B.#}
+{#C.#}
+{#D.#}
+{#        </textarea>#}
+{#        <br>#}
+{#        答案：<input type="text" name="answer" placeholder="输入答案">#}
+{#        <br>#}
+{#        <!-- 表单提交按钮 -->#}
+{#        <input type="submit" value="提交题目">#}
+{#    </form>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    // 通过JavaScript获取按钮和输入框容器元素#}
+{#    var showButton = document.getElementById('showButton');#}
+{#    var inputBox = document.getElementById('input-box');#}
+{##}
+{#    // 为按钮添加点击事件监听器#}
+{#    showButton.addEventListener('click', function() {#}
+{#        // 点击时切换输入框容器的显示状态#}
+{#        if (inputBox.style.display === 'none') {#}
+{#            inputBox.style.display = 'block'; // 显示输入框容器#}
+{#        } else {#}
+{#            inputBox.style.display = 'none'; // 隐藏输入框容器#}
+{#        }#}
+{#    });#}
+{#</script>#}
+
+
+
+
+    <div>当前题库中的题目：</div>
+    <br>
+    <div>
+        {% for question in questions %}
+            题目id: {{ question.id }}
+            <br>
+            题目：{{ question.question }}
+            <br>
+            选项：
+            <br>
+            {% for option in question.options %}
+            	    {{ option }}
+                    <br>
+                {% endfor %}
+
+            题目答案：{{ question.answer }}
+            <hr>
+        {% endfor %}
+
+    </div>
+    <div>
+        <hr>
+        操作：
+    </div>
+        <!-- 表单初始不显示 -->
+    <form method="POST" action="{{ url_for('management.questionManagement') }}" style="display: none;" id="question_form_add">
+        题目：<input type="text" name="question" placeholder="输入题目">
+        <br>
+        选项：<textarea name="option" id="" cols="30" rows="4" placeholder="输入选项">A.
+B.
+C.
+D.
+        </textarea>
+        <br>
+        答案：<input type="text" name="answer" placeholder="输入答案">
+        <br>
+        <input type="submit" value="提交题目">
+    </form>
+
+    <!-- 添加题目按钮 -->
+    <button onclick="document.getElementById('question_form_add').style.display = 'block'">添加题目</button>
+
+
+           <!-- 表单初始不显示 -->
+    <form method="POST" action="{{ url_for('management.questionManagement') }}" style="display: none;" id="question_form_delete">
+        题目id：<input type="text" name="question_id" placeholder="输入要删除的题目的id">
+
+        <input type="submit" value="确认删除">
+    </form>
+
+    <!-- 添加题目按钮 -->
+    <button onclick="document.getElementById('question_form_delete').style.display = 'block'">删除题目</button>
+
+
+
+{% endblock %}
+
