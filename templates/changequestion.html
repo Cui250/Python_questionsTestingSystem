@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+{% block title %}知了传课-管理员操作{% endblock %}
+
+{% block head %}
+    <script src="{{ url_for('static',filename='jquery/jquery.3.6.min.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+	<div class="row mt-4">
+            <div class="col"></div>
+            <div class="col">
+                 <form method="POST" >
+                    <div class="form-group">
+                        <label for="exampleInputQuestionNumber">题号</label>
+                        <input type="text" class="form-control" id="exampleInputQuestionNumber" name="number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputQuestion">题目</label>
+                        <input type="text" class="form-control" id="exampleInputQuestion" name="question">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputQuestionChoice">选项</label>
+                        <input type="text" class="form-control" id="exampleInputQuestionChoice" name="choice">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputQuestionAnswer">答案</label>
+                        <input type="text" class="form-control" id="exampleInputQuestionAnswer" name="answer">
+                    </div>
+                     <div class="form-group">
+                        <label for="exampleInputQuestionDifficulty">试题难度</label>
+                        <input type="text" class="form-control" id="exampleInputQuestionDifficulty" name="difficulty">
+                    </div>
+                     <div class="form-group">
+                        <label for="exampleInputQuestionKind">试题类别</label>
+                        <input type="text"class="form-control" id="exampleInputQuestionKind" name="kind">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">提交</button>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+{% endblock %}
+
+

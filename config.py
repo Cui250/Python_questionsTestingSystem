@@ -1,28 +1,23 @@
-#数据库的配置信息
-hostname = '127.0.0.1'
-port = '3306'
-username = 'root'
-password = 'ABSESP040113'
-database = 'questions'
-# 固定写法（不要有空格！！！）：
-DB_URI = f'mysql+pymysql://{username}:{password}@{hostname}:{port}/{database}'
-SQLALCHEMY_DATABASE_URI = DB_URI
+
+SECRET_KEY = "asdsadfasfsfafsafsfdsaf"
+
+
+#配置文件
+from urllib.parse import quote
+HOSTNAME='localhost'
+password='wutong@871798'
+port=3306
+user='root'
+database='exam_ceshi'
+DB_URI = f"mysql+pymysql://{user}:{quote(password)}@{HOSTNAME}:{port}/{database}?charset=utf8"
+SQLALCHEMY_DATABASE_URI=DB_URI
 
 
 
-# DB_URI = f"mysql://{username}:{password}@{hostname}/{database}"
-# SQLALCHEMY_DATABASE_URI = DB_URI
-
-
-# dlujicapiwfndfgd
-MAIL_SERVER = 'smtp.qq.com'
-MAIL_USE_SSL = True
-MAIL_PORT = 465
-MAIL_USERNAME = '2686036382@qq.com'
-MAIL_PASSWORD = 'dlujicapiwfndfgd'
-MAIL_DEFAULT_SENDER = '2686036382@qq.com'
-
-# 用于哈希加密存储的密码的秘钥
-SECRET_KEY = 'ABC123'
-
-
+# 邮箱配置
+MAIL_SERVER='smtp.qq.com'
+MAIL_USE_SSL=True  #是否加密
+MAIL_PORT=465
+MAIL_USERNAME='244894358@qq.com'
+MAIL_PASSWORD='pzbfzxebkdfscaeg'
+MAIL_DEFAULT_SENDER='244894358@qq.com'

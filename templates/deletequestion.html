@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block title %}知了传课-管理员操作{% endblock %}
+
+{% block head %}
+    <script src="{{ url_for('static',filename='jquery/jquery.3.6.min.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+	<div class="row mt-4">
+            <div class="col"></div>
+            <div class="col">
+                 <form method="POST" >
+                    <div class="form-group">
+                        <label for="exampleInputQuestionNumber">题号</label>
+                        <input type="text" class="form-control" id="exampleInputQuestionNumber" name="number">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">删除试题</button>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+{% endblock %}
+
+

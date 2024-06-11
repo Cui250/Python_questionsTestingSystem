@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+
+{% block title %}知了传课-管理员操作{% endblock %}
+
+{% block head %}
+    <script src="{{ url_for('static',filename='jquery/jquery.3.6.min.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+	<div class="row mt-4">
+    <div class="col"></div>
+    <div class="col">
+        <!-- 注意这里没有使用 <form> 标签，因为我们不需要提交表单 -->
+        <button type="button" class="btn btn-primary btn-block" onclick="goToLookUser()">查看用户信息</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="goToDeleteUser()">删除用户</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="goToAddOrEditUser()">增加或修改用户</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="goToLookQuestion()">查看试题信息</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="goToDeleteQuestion()">删除试题</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="goToAddOrEditQuestion()">修改或增加试题</button>
+    </div>
+    <div class="col"></div>
+</div>
+
+<script>
+function goToLookUser() {
+    window.location.href = "{{ url_for('auth.look_user') }}"; // 替换为实际的查看用户页面URL
+}
+function goToDeleteUser() {
+    window.location.href = "{{ url_for('auth.delete_user') }}"; // 替换为实际的删除用户页面URL
+}
+
+function goToAddOrEditUser() {
+    window.location.href = "{{ url_for('auth.change_user') }}"; // 替换为实际的增加或修改用户页面URL
+}
+function goToLookQuestion() {
+    window.location.href = "{{ url_for('qa.look_question') }}"; // 替换为实际的查看试题页面URL
+}
+function goToDeleteQuestion() {
+    window.location.href = "{{ url_for('qa.delete_question') }}"; // 替换为实际的删除试题页面URL
+}
+function goToAddOrEditQuestion() {
+    window.location.href = "{{ url_for('qa.change_question') }}"; // 替换为实际的修改试题页面URL
+}
+</script>
+{% endblock %}
+
+
+{#<ul class="navbar-nav">#}
+{#                    {% if user %}#}
+{#                        <li class="nav-item">#}
+{#                        <span class="nav-link" >{{user.identity}}</span>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                        <span class="nav-link" >{{user.username}}</span>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                           <a class="nav-link" href="{{ url_for('auth.logout') }}">退出登录</a>#}
+{#                        </li>#}
+{##}
+{#                    {% else %}#}
+{#                        <li class="nav-item">#}
+{#                        <a class="nav-link" href="{{ url_for('auth.login') }}">登录</a>#}
+{#                        </li>#}
+{#                         <li class="nav-item">#}
+{#                             <a class="nav-link" href="{{ url_for('auth.register') }}">注册</a>#}
+{#                        </li>#}

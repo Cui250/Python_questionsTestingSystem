@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+
+
+{% block title %}知了传课-管理员操作{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
+{% endblock %}
+
+
+{% block body %}
+	<div class="row" style="margin-top: 20px;">
+            <div class="col"></div>
+            <div class="col-10">
+                <ul class="question-ul">
+                    {% for question in questions %}
+                    <li>
+                        <div class="question-main">
+                            <div class="question-title"><a href="#">{{question.question}}</a></div>
+                            <div class="question-content">{{question.choice}}</div>
+                            <div class="question-content">{{"真确答案是："+question.answer}}</div>
+                            <div class="question-content">{{question.difficulty}}</div>
+                            <div class="question-content">{{"试题类别是："+question.kind}}</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col"></div>
+        </div>
+{% endblock %}
+
+
+
+
+
