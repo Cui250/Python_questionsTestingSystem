@@ -21,9 +21,28 @@
             </el-option>
           </el-select>
           <!-- 父组件模板 -->
-          <el-button type="primary" size="medium" @click="startTesting">开始考试</el-button>
+          <el-button type="primary" size="medium" @click="requestForTest">开始考试</el-button>
+          <div style="text-align: center; margin-top: 1vw">
+            <el-button type="primary" size="medium" @click="back()">返回</el-button>
+
+          </div>
 
         </div>
+
+        <!-- 开始考试弹窗-->
+        <el-dialog title="考试须知" :visible.sync="dialogFormVisible" width="30%" :before-close="handleClose">
+            <span>1. 电脑：台式或笔记本电脑一台，操作系统须为Windows11、Windows10、Windows7，或 Mac
+                  OS10.15.6 及以上系统。
+                  2. 浏览器：须为最新版谷歌Chrome浏览器（推荐使用），或最新版 360 极速浏览器。
+                  3. 考试客户端：须从设备检测及模拟试考网址或者正式考试网址下载并安装最新版考试安全客
+                   户端。4. 双摄像头：①电脑自带前置摄像头或外接摄像头；②用于监考的手机摄像头（手机须安装
+                最新版微信），建议准备手机支架。5. 麦克风和扬声器：电脑自带或外接。6. 网络：网络带宽 50Mbps及以上，下载速度 5MB/S及以上。
+                 . 请确保上述设备可正常工作，用电设备电量充足（建议全程使用外接电源），网络稳定</span>
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="startTesting">开始考试</el-button>
+            </span>
+        </el-dialog>
 
         <!--    答题页面，只有在获取到试卷且未提交且没有在查看考试记录的情况之下，才会显示-->
         <div v-if="paperFetched && !submitted && !testingRecordFetched">
@@ -61,6 +80,10 @@
         <div v-if="submitted && !testingRecordFetched">
           <p>考试正常结束</p>
           <p>你的总得分为：{{results.score}}</p>
+          <div style="text-align: center; margin-top: 1vw">
+            <el-button type="primary" size="medium" @click="back()">返回</el-button>
+
+          </div>
         </div>
 
       </div>
@@ -86,7 +109,8 @@ export default {
       testingPaperInRecords: [],
       paperFetched:false,
       submitted: false,
-      testingRecordFetched: false
+      testingRecordFetched: false,
+      dialogFormVisible: false,
     };
   },
 
@@ -184,6 +208,7 @@ export default {
     async startTesting() {
       try {
         await this.fetchTestingPaper(); // 假设 fetchTestingPaper 返回一个 Promise
+        this.dialogFormVisible = false;
         this.$message.success('开始考试');
       } catch (error) {
         // 处理错误，例如显示一个错误消息
@@ -244,6 +269,12 @@ export default {
             console.error("交卷发生错误:", error);
           });
     },
+    requestForTest(){
+      this.dialogFormVisible = true;
+    },
+    back(){
+      this.$router.push('/UserManagement');
+    }
   }
 };
 </script>
