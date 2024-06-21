@@ -2,7 +2,7 @@
 import random
 import string
 
-from flask import Blueprint, jsonify, redirect, session
+from flask import Blueprint, jsonify
 from exts import mail, db
 from flask_mail import Message
 from flask import request
@@ -44,12 +44,6 @@ def login():
 
     # 返回成功响应
     return jsonify({'email': email, 'userId': id, 'userName': username, 'role': role, 'code': 200, 'message': '登录成功'})
-
-
-@bp.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
 
 
 @bp.route('/captcha/email', methods=['POST'])

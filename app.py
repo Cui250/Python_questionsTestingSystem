@@ -2,7 +2,6 @@ from flask import Flask
 #导入配置文件
 import config
 from exts import db,mail
-from models import userModel
 from blueprints.auth import bp as auth_bp
 from blueprints.testing import bp as testing_bp
 from blueprints.paperSetting import bp as paperSetting_bp

@@ -1,4 +1,4 @@
-#管理相关
+#考试相关
 import json
 
 from flask import Blueprint
@@ -6,7 +6,7 @@ from exts import db
 from flask import request
 from models import choiceQuestionModel, testPaperModel, testingResultModel, userModel
 from flask import jsonify
-from datetime import datetime
+
 
 
 bp = Blueprint('testing', __name__, url_prefix='/testing')
