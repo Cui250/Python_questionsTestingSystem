@@ -114,7 +114,7 @@ export default {
     };
   },
 
-  // testing.vue
+  // 从vuex获取用户信息
   computed: {
     user() {
       return this.$store.state.user;
