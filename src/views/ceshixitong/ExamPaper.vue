@@ -10,7 +10,7 @@
             <div class="box_left">
               <el-breadcrumb separator="/">
                 <el-breadcrumb-item style="font-weight: bold; color: black;">系统管理</el-breadcrumb-item>
-                <el-breadcrumb-item>组卷</el-breadcrumb-item>
+                <el-breadcrumb-item>试卷管理</el-breadcrumb-item>
               </el-breadcrumb>
             </div>
             <div class="box_right">

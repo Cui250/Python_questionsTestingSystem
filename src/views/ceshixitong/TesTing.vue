@@ -61,14 +61,7 @@
 
             <!-- 空间留白 -->
             <div style="margin-bottom: 20px;"></div>
-
-            <!--        <div v-for="(result, j) in results" :key="j" :style="{ color: result.correct ? 'green' : 'red' }">-->
-            <!--          <div v-if="index === j">-->
-            <!--            <p>{{ result.message }}</p>-->
-            <!--            <p>解析：{{ result.analysis }}</p>-->
-            <!--          </div>-->
-            <!--        </div>-->
-
+            
           </div>
           <el-button @click="submitAnswers" type="primary" round >交卷</el-button>
         </div>
@@ -149,19 +142,7 @@ export default {
             this.$message.error('无法加载数据，请检查网络连接或服务器状态');
           });
     },
-    determineOptionColor() {
-      return "initial";
-      // // 假设每个问题选项都有一个唯一的 ID，并且这个 ID 与 results 数组中的某个对象的 ID 相匹配
-      // const result = this.results.find(result => result === optionId);
-      //
-      // // 如果找到了对应的结果，并且答案是正确的
-      // if (result && result.correct === 'true') {
-      //   return 'green'; // 正确答案的样式
-      // } else {
-      //   return 'red'; // 错误答案的样式
-      // }
-    },
-    // 确保使用async关键字声明这个方法
+// 确保使用async关键字声明这个方法
     async fetchTestingPaper() {
       // 验证用户是否输入试卷id
       if (!this.testingPaper.paperId) {
@@ -273,7 +254,7 @@ export default {
       this.dialogFormVisible = true;
     },
     back(){
-      this.$router.push('/UserManagement');
+      this.$router.go(-1);
     }
   }
 };

@@ -4,9 +4,27 @@
       <!--    侧边栏部分-->
       <InterFace></InterFace>
       <!--      头部部分-->
+
+
       <el-container>
         <el-header style="text-align: right; font-size: 12px; border-bottom: 2px solid #ccc; line-height: 60px;background-color: white">
-
+          <div class="box">
+            <div class="box_left">
+              <el-breadcrumb separator="/">
+                <el-breadcrumb-item style="font-weight: bold; color: black;">我的信息</el-breadcrumb-item>
+                <el-breadcrumb-item>我的考试</el-breadcrumb-item>
+              </el-breadcrumb>
+            </div>
+            <div class="box_right">
+              <el-dropdown style="width: 70px; cursor: pointer;">
+                <span>{{user.userName}}</span> <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item><router-link to="/PersonalInf" style="text-decoration: none; color: black;">个人信息</router-link></el-dropdown-item>
+                  <el-dropdown-item><router-link to="/login" style="text-decoration: none; color: black;">退出</router-link></el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </div>
         </el-header>
         <!--       主体部分-->
         <el-main>

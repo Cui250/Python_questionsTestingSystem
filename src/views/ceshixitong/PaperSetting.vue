@@ -74,6 +74,11 @@ export default {
   },
   //计算属性 通过这个在渲染数据的时候提前把问题进行归类
   computed: {
+    // 从vuex获取用户信息
+      user() {
+        return this.$store.state.user;
+      },
+
     filteredQuestions() {
       return this.questions.filter(q => q.course === this.selectedCourse);
     }

@@ -6,8 +6,8 @@
       </div>
       <!-- 邮箱输入框-->
       <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-user" v-model="user.email" placeholder="请输入邮箱"></el-input>
-      <!-- 密码输入框-->
-      <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.password" placeholder="请输入密码"></el-input>
+      <!-- 密码输入框，按下回车登录-->
+      <el-input size="medium" @keydown.enter.native="login" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.password" placeholder="请输入密码"></el-input>
 
       <!-- 提交和注册按钮 -->
       <div style="margin: 10px 0; text-align: right">
@@ -70,8 +70,16 @@ export default {
                 roleMessage = "管理员"
               }
               this.$message.success("欢迎回来," + this.user.userName + roleMessage + "!");
-              // 登录成功，跳转到用户管理页面
-              this.$router.push('/UserManagement');
+              // 登录成功，跳转到相应页面
+              if(this.user.role === 'student'){
+                this.$router.push('MyTest');
+              }
+              else  if(this.user.role === 'teacher'){
+                this.$router.push('QuestionAnalysis');
+              }
+              else{
+                this.$router.push('/UserManagement');
+              }
             } else {
               // 登录失败，显示错误消息
               this.$message.error("用户名或密码错误！");

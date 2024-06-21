@@ -195,7 +195,7 @@ export default {
       }
     },
     back(){
-      this.$router.push('/ExamPaper');
+      this.$router.go(-1);
     }
 
   }

@@ -39,16 +39,20 @@
 
 <script>
 import axios from 'axios'; // 引入axios
+import { mapActions } from "vuex";
+
 
 export default {
   name: "LogiN",
   data() {
     return {
       user: {
+        id: '',
         email: '',
         password: '',
         captcha: '',
-        userName: ''
+        userName: '',
+        role: ''
       },
       sendingCaptcha: false,
       captchaTimerCount: 0, // 初始化倒计时为0
@@ -56,6 +60,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setUser']), // 映射所需的 actions
     sendCaptcha() {
       if (!this.user.email) {
         this.$message.error('请先输入邮箱');
@@ -127,8 +132,11 @@ export default {
             // 判断并且输出展示注册结果
             if (response.data.code === 200) {
               this.$message.success('注册成功');
+              this.user.id = response.data.id;
+              this.user.role = response.data.role;
+              this.setUser(this.user);
               // 注册成功，跳转到登录页面
-              this.$router.push('/login');
+              this.$router.push('/MyTest');
             } else {
               this.$message.error(response.data.message || '注册失败');
             }
