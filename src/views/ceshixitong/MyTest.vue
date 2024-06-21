@@ -6,120 +6,123 @@
       <!--      头部部分-->
       <el-container>
         <el-header style="text-align: right; font-size: 12px; border-bottom: 2px solid #ccc; line-height: 60px;background-color: white">
-          <div class="box">
-            <div class="box_left">
-              <el-breadcrumb separator="/">
-                <el-breadcrumb-item  style="font-weight: bold; color: black;">我的信息</el-breadcrumb-item>
-                <el-breadcrumb-item>我的考试</el-breadcrumb-item>
-              </el-breadcrumb>
-            </div>
-            <div class="box_right">
-              <el-dropdown style="width: 70px; cursor: pointer;">
-                <span>{{user.userName}}</span> <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item><router-link to="/PersonalInf" style="text-decoration: none; color: black;">个人信息</router-link></el-dropdown-item>
-                  <el-dropdown-item><router-link to="/login" style="text-decoration: none; color: black;">退出</router-link></el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
-          </div>
+
         </el-header>
         <!--       主体部分-->
         <el-main>
-          <!--        一些按钮-->
-          <el-button type="success" @click = 'dialogFormVisible=true' >开始考试</el-button>
 
-          <br><br>
+          <!--        一些按钮-->
+
+          <div  style=" overflow-y: auto; height: 45vw; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+
+            <div class="chart-container">
+            <!-- 图表 -->
+            <div ref="stackedLineChart1" style="width: 80vw; height: 21vw;"></div>
+
+            <!-- 用户选择下拉列表 -->
+            <div class="user-select-container">
+              <el-select v-model="selectedUserId" placeholder="请选择用户" @change="handleUserChange" size="small">
+                <el-option
+                    v-for="user in userOptions"
+                    :key="user.value"
+                    :label="user.label"
+                    :value="user.value">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
+            <br>
+            <hr>
+            <br>
+
+          <div class="chart-container">
+            <!-- 图表 -->
+            <div ref="stackedLineChart" style="width: 70vw; height: 21vw;"></div>
+
+            <!-- 用户选择下拉列表 -->
+            <div class="user-select-container">
+
+              <el-select v-model="selectedCourse" placeholder="请选择课程" @change="handleCourseChange">
+                <el-option
+                    v-for="course in courseOptions"
+                    :key="course.value"
+                    :label="course.label"
+                    :value="course.value">
+                </el-option>
+              </el-select>
+
+            </div>
+          </div>
+
+
 
           <!--                  表格，点击查看后隐藏-->
-          <el-table :data="records" border v-if="!checked">
-            <el-table-column prop="id" label="ID" width="120">
-            </el-table-column>
-            <el-table-column prop="userId" label="用户id" width="120">
-            </el-table-column>
-            <el-table-column prop="paperId" label="试卷id" width="120">
-            </el-table-column>
-            <el-table-column prop="course" label="所属课程" width="120">
-            </el-table-column>
-            <el-table-column prop="score" label="分数" width="200">
-            </el-table-column>
-            <el-table-column label="操作" width="180">
-              <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="check(scope.row) ">查看</el-button>
+            <el-table :data="records" border v-if="!checked">
+              <el-table-column prop="id" label="ID" width="120">
+              </el-table-column>
+              <el-table-column prop="userId" label="用户id" width="120">
+              </el-table-column>
+              <el-table-column prop="paperId" label="试卷id" width="120">
+              </el-table-column>
+              <el-table-column prop="course" label="所属课程" width="120">
+              </el-table-column>
+              <el-table-column prop="score" label="分数" width="200">
+              </el-table-column>
+              <el-table-column label="操作" width="180">
+                <template slot-scope="scope">
+                  <el-button type="primary" size="mini" @click="check(scope.row) ">查看</el-button>
 
 
-              </template>
-            </el-table-column>
+                </template>
+              </el-table-column>
 
 
-          </el-table>
-          <el-button v-if="checked" type="success" size="mini" @click="back">返回</el-button>
+            </el-table>
+            <el-button v-if="checked" type="success" size="mini" @click="back">返回</el-button>
+            <div v-if="checked">
+              <div  style="margin-left: 5%">
+                <p>测试时间：{{ record.testingTime }}</p>
+                <p>测试用户id:{{record.userId}}</p>
+                <p>测试试卷id:{{record.paperId}}</p>
+                <p>测试得分:{{record.score}}</p>
+                <p>测试详情:</p>
+                <br>
+                <div>
+                  <!-- 保持原有页面样式 -->
+                  <div v-for="(question, index) in testingPaper.questions" :key="index" >
+                    <p>{{question.id}}.{{ question.question }}</p>
+                    <ul>
+                      <li v-for="(option, i) in question.options" :key="i" >
+                        <!-- 使用 span 元素显示选项内容 -->
+                        <span>{{ String.fromCharCode(65 + i) }}.{{ option }}</span>
+                      </li>
+                    </ul>
+                    <div v-for="(situation, index) in record.answerSituation" :key="index"  >
 
 
-
-          <div v-if="checked " style=" overflow-y: auto; height: 650px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
-            <div  style="margin-left: 5%">
-              <p>测试时间：{{ record.testingTime }}</p>
-              <p>测试用户id:{{record.userId}}</p>
-              <p>测试试卷id:{{record.paperId}}</p>
-              <p>测试得分:{{record.score}}</p>
-              <p>测试详情:</p>
-              <br>
-              <div>
-                <!-- 保持原有页面样式 -->
-                <div v-for="(question, index) in testingPaper.questions" :key="index" >
-                  <p>{{question.id}}.{{ question.question }}</p>
-                  <ul>
-                    <li v-for="(option, i) in question.options" :key="i"  :style="{ color: determineOptionColor(j, i) }">
-                      <!-- 使用 span 元素显示选项内容 -->
-                      <span>{{ String.fromCharCode(65 + i) }}.{{ option }}</span>
-                    </li>
-                  </ul>
-                  <div v-for="(situation, index) in record.answerSituation" :key="index"  >
-
-
-                    <div v-if="question.id === situation.questionId">
-                      <p style="color: green">正确答案：{{situation.correctAnswer}}</p>
-                      <p :style="{ color: situation.correct === 'true' ? 'green' : 'red' }">你选择了：{{situation.chosen}}</p>
-                      <p :style="{ color: situation.correct === 'true' ? 'green' : 'red' }">是否做对:{{ situation.correct === 'true' ? '是' : '否' }}</p>
-                      <p>本题得分:{{situation.score}}</p>
-                      <p>解析：{{question.analysis}}</p>
-                      <p>知识点：{{question.knowledge_point}}</p>
-                      <p>难度系数：{{question.level}}</p>
+                      <div v-if="question.id === situation.questionId">
+                        <p style="color: green">正确答案：{{situation.correctAnswer}}</p>
+                        <p :style="{ color: situation.correct === 'true' ? 'green' : 'red' }">你选择了：{{situation.chosen}}</p>
+                        <p :style="{ color: situation.correct === 'true' ? 'green' : 'red' }">是否做对:{{ situation.correct === 'true' ? '是' : '否' }}</p>
+                        <p>本题得分:{{situation.score}}</p>
+                        <p>解析：{{question.analysis}}</p>
+                        <p>知识点：{{question.knowledge_point}}</p>
+                        <p>难度系数：{{question.level}}</p>
+                      </div>
                     </div>
+                    <!-- 空间留白 -->
+                    <div style="margin-bottom: 20px;"></div>
                   </div>
-                  <!-- 空间留白 -->
-                  <div style="margin-bottom: 20px;"></div>
                 </div>
+
+                <hr>
+                <br>
               </div>
 
-              <hr>
-              <br>
             </div>
 
           </div>
-
-          <div ref="scoreChart" style="width: 600px;height:400px;"></div>
-          <div>
-            {{scoreDate}}
-          </div>
-
-
-
-          <!-- 开始考试弹窗-->
-          <el-dialog title="考试须知" :visible.sync="dialogFormVisible" width="30%" :before-close="handleClose">
-            <span>1. 电脑：台式或笔记本电脑一台，操作系统须为Windows11、Windows10、Windows7，或 Mac
-                  OS10.15.6 及以上系统。
-                  2. 浏览器：须为最新版谷歌Chrome浏览器（推荐使用），或最新版 360 极速浏览器。
-                  3. 考试客户端：须从设备检测及模拟试考网址或者正式考试网址下载并安装最新版考试安全客
-                   户端。4. 双摄像头：①电脑自带前置摄像头或外接摄像头；②用于监考的手机摄像头（手机须安装
-                最新版微信），建议准备手机支架。5. 麦克风和扬声器：电脑自带或外接。6. 网络：网络带宽 50Mbps及以上，下载速度 5MB/S及以上。
-                 . 请确保上述设备可正常工作，用电设备电量充足（建议全程使用外接电源），网络稳定</span>
-            <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="begintest">开始考试</el-button>
-            </span>
-          </el-dialog>
 
 
         </el-main>
@@ -141,7 +144,6 @@ export default {
     return {
       checked: false,
       questions:[],
-      dialogFormVisible:false, //弹窗显示
       testingPaper: {
         paperId: '',
         course: '',
@@ -149,8 +151,10 @@ export default {
       },
       record: {},
       records: [],
+      userUserName: {},
       // 存储 ECharts 实例
-      scoreChart: null,
+      stackedLineChart: null,
+      stackedLineChart1: null, // ECharts 实例（如果需要在组件的其它地方访问）
       // 模拟的分数数据，每个对象包含日期和分数
       scoreDate: [
         // { date: '2021-06-10 22:04:05', score: 88 },
@@ -158,69 +162,110 @@ export default {
         // { date: '2021-06-20 22:04:05', score: 85 },
         // 可以添加更多数据点
       ],
+      // 如果您的堆叠折线图的数据也需要作为初始状态，可以添加如下：
+      stackedLineData: {
+        courses: [], // 存储课程和对应的用户及分数数据
+        allDates: [] // 存储所有考试日期
+      },
+      selectedCourse: '', // 当前选中的课程,
+      selectedUserId: '',
+      stackedLineData1: {
+        userId: '',
+        xAxisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        seriesData: [
+          { name: 'Email', data: [120, 132, 101, 134, 200, 150, 180] },
+          { name: 'Union Ads', data: [220, 182, 191, 234, 290, 330, 310] },
+          // 可以根据需要添加更多系列的默认数据
+        ],
+      },
 
     }
   },
-  mounted() {
-    this.initScoreChart();
-  },
+
   components:{
     InterFace
   },
-  computed:{
+  computed: {
+    // 使用 Vuex store 获取用户信息
     user() {
       return this.$store.getters.getUser;
-    }
-  },
-  created() {
-    // 请求分页查询数据
-    this.fetchTestingRecord()
+    },
+    // 根据records生成课程选项，使用集合去除重复课程
+    courseOptions() {
+      const coursesSet = new Set();
+      this.records.forEach(record => coursesSet.add(record.course));
+      return Array.from(coursesSet).map(course => ({
+        value: course,
+        label: course,
+      }));
+    },
+    // 根据records生成用户选项，使用集合去除重复用户
+    userOptions() {
+      const userIdsSet = new Set(this.records.map(record => record.userId));
+      return Array.from(userIdsSet).map(userId => {
+        return {
+          // 这里转换为string是为了和selectedUserId完全匹配，确保列表的默认被选值正常显示
+          value: userId.toString(),
+          label: this.userUserName[userId] || userId, // 使用userName作为label，如果没有userName则使用userId
+        };
+      });
+    },
   },
 
-  methods: {
-    //请求数据
+  mounted() {
+    // 请求数据，不要在这里初始化图表
+    this.fetchTestingRecord();
+  },
+
+  methods: { // 根据选中的课程更新图表
+    updateChartByCourse() {
+      this.stackedLineChart.dispose();
+      // 重新准备图表配置项并更新图表
+      this.initStackedLineChart();
+    },
+
+    // 根据选中的用户更新图表
+    updateChartByUser() {
+      this.stackedLineChart1.dispose();
+      // 重新准备图表配置项并更新图表
+      this.initStackedLineChart1();
+    },
+
+    // 处理课程变化
+    handleCourseChange(newValue) {
+      this.selectedCourse = newValue;
+      this.updateChartByCourse();
+    },
+
+    // 处理用户变化
+    handleUserChange(newValue) {
+      this.selectedUser = newValue;
+      this.updateChartByUser();
+    },
+//请求数据
     async fetchTestingRecord() {
       try {
-        // 发起获取测试记录的请求
-        const response = await axios.get('http://127.0.0.1:5000/testing/', {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        // 检查响应代码
+        const response = await axios.get('http://127.0.0.1:5000/testing/');
         if (response.data.code === 200) {
-          // 请求成功
-          this.$message.success('加载数据成功，真不容易');
-          this.testingRecordFetched = true;
-          this.records = response.data.records; // 保存测试记录到this.records
+          this.records = response.data.records;
+          this.stackedLineData.courses = response.data.dataForPerCourse.courses;
+          this.stackedLineData.allDates = response.data.dataForPerCourse.allDates;
+          this.selectedCourse = this.stackedLineData.courses[0].course;
+          this.stackedLineData1 = response.data.dataForPerUser;
+          this.userUserName = response.data.userUserName;
+          // this.selectedUserId = this.records.length > 0 ? this.records[0].userId : ''; // 假设取第一个记录的用户ID
+          // 确保数据加载完成后再初始化图表
 
-        } else {
-          // 请求失败
-          this.$message.error(response.data.message || '请求提交失败');
         }
+        this.selectedUserId = Object.keys(this.stackedLineData1)[0]; // 选择第一个用户ID
+        // 确保数据加载完成后再初始化图表
+        this.initStackedLineChart();
+        this.initStackedLineChart1();
       } catch (error) {
-        // 捕获并处理错误
         let errorMessage = error.response ? error.response.data.message : error.message;
-        this.$message.error("请求提交失败: " + errorMessage);
-        console.error("请求提交发生错误:", error);
+        this.$message.error("数据请求失败: " + errorMessage);
+        console.error("请求数据发生错误:", error);
       }
-    },
-    determineOptionColor() {
-      return "initial";
-      // // 假设每个问题选项都有一个唯一的 ID，并且这个 ID 与 results 数组中的某个对象的 ID 相匹配
-      // const result = this.results.find(result => result === optionId);
-      //
-      // // 如果找到了对应的结果，并且答案是正确的
-      // if (result && result.correct === 'true') {
-      //   return 'green'; // 正确答案的样式
-      // } else {
-      //   return 'red'; // 错误答案的样式
-      // }
-    },
-    begintest() {
-      this.dialogFormVisible = false,
-          this.$router.push('/Test')
     },
     async fetchTestingPaper() {
       // 验证是否成功传入试卷id
@@ -264,92 +309,166 @@ export default {
 
 
     },
-    // 初始化图表的方法
-    initScoreChart() {
-      // 检查 scoreDate 是否已经初始化
-      if (!this.scoreDate || this.scoreDate.length === 0) {
-        this.fetchScoreData();
-      } else {
-        // 如果已经有数据，直接创建图表
-        this.createScoreChart();
-      }
-    },
 
-    // 请求分数数据的方法
-    fetchScoreData() {
-      axios.post('http://127.0.0.1:5000/testing/', {
-        fetchScoreDate: true
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
+
+    back() {
+      this.checked = false;
+    },    // 初始化堆叠折线图的方法
+    initStackedLineChart() {
+        // 确保 DOM 元素存在且数据已准备好
+        if (!this.$refs.stackedLineChart || !this.stackedLineData.courses.length || !this.stackedLineData.allDates.length) {
+          console.error('ECharts data is not ready');
+          return;
         }
-      })
-          .then(response => {
-            if (response.data.code === 200) {
-              // 假设返回的数据格式为 [{date: '日期字符串', score: 分数}, ...]
-              this.scoreDate = response.data.scoreDate;
-              this.createScoreChart(); // 数据获取成功后创建图表
-            } else {
-              this.$message.error(response.data.message || '获取分数数据失败');
-            }
-          })
-          .catch(error => {
-            console.error('请求失败:', error);
-            this.$message.error('无法加载数据，请检查网络连接或服务器状态');
-          });
+      const myChart = echarts.init(this.$refs.stackedLineChart);
+      const option = this.prepareStackedLineOption(this.stackedLineData, this.selectedCourse);
+      myChart.setOption(option);
+      this.stackedLineChart = myChart;
     },
 
-    // 根据获取的数据创建图表的方法
-    createScoreChart() {
-      // 确保 this.$refs.scoreChart 是有效的 DOM 元素
-      if (!this.$refs.scoreChart) return;
+    // 准备堆叠折线图的配置项
+    prepareStackedLineOption(data, selectedCourse) {
+      const courseInfo = data.courses.find(course => course.course === selectedCourse);
+      if (!courseInfo) return;
+      console.log(courseInfo.users.map(user => this.userUserName[user.userId.toString()]))
 
-      // 使用 echarts 初始化图表
-      this.scoreChart = echarts.init(this.$refs.scoreChart);
 
-      // 提取日期和分数
-      // 提取日期和分数
-      const dates = this.scoreDate.map(item => new Date(item.date).toLocaleDateString());
-      const scores = this.scoreDate.map(item => item.score);
 
-      // 准备图表的配置项
-      const option = {
-        title: { text: '用户考试分数随时间变化' },
-        xAxis: {
-          type: 'category',
-          data: dates
+      return {
+        title: {
+          text: `${selectedCourse}课程分数变化趋势`
         },
-        yAxis: {
-          type: 'value',
-          axisLabel: {
-            formatter: '{value} 分'
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: courseInfo.users.map(user => this.userUserName[user.userId.toString()]),
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
           }
         },
-        series: [{
-          data: scores,
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: data.allDates
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: courseInfo.users.map(user => ({
+          name: this.userUserName[user.userId.toString()],
           type: 'line',
-          smooth: true, // 曲线平滑
-        }]
+          stack: 'score',
+          data: user.scores,
+        }))
       };
-      // 使用配置项设置图表
-      this.scoreChart.setOption(option);
     },
 
-    // 组件销毁前销毁 ECharts 实例的方法
-    beforeDestroy() {
-      if (this.scoreChart) {
-        this.scoreChart.dispose();
+// 初始化特定用户的得分趋势图的方法
+// 初始化特定用户的得分趋势图的方法
+    initStackedLineChart1() {
+      const userId = this.selectedUserId; // 从数据属性中获取当前选中的用户ID
+      if (!userId) {
+        console.error('No user selected');
+        return;
       }
+
+      // 确保 DOM 元素存在
+      if (!this.$refs.stackedLineChart1) {
+        console.error('The stackedLineChart1 DOM element does not exist.');
+        return;
+      }
+
+      // 根据用户ID获取数据
+      const userCourses = this.stackedLineData1[userId];
+
+      // 初始化 ECharts 实例
+      const myChart1 = echarts.init(this.$refs.stackedLineChart1);
+
+      // 准备堆叠折线图的配置项
+      const option1 = this.prepareStackedLineOption1(userCourses);
+
+      // 使用配置项设置图表
+      myChart1.setOption(option1);
+
+      // 存储 ECharts 实例
+      this.stackedLineChart1 = myChart1;
     },
-    back(){
-      this.checked = false;
+
+    // 准备特定用户的堆叠折线图配置项
+    prepareStackedLineOption1(userCourses) {
+      // 假设 userCourses 是一个对象，包含了特定用户的所有课程数据
+      const coursesData = Object.entries(userCourses.courses); // 获取所有的课程条目
+
+      return {
+        title: {
+          text: `${this.userUserName[userCourses.userId.toString()]}的课程得分趋势`
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: coursesData.map(([courseName]) => courseName)
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: coursesData[0][1].dates // 假设所有课程的日期相同，取第一个课程的日期
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: coursesData.map(([courseName, courseData]) => ({
+          name: courseName,
+          type: 'line',
+          stack: 'Total',
+          data: courseData.scores,
+        }))
+      };
     },
+  },
+  beforeDestroy() {
+    if (this.stackedLineChart) {
+      this.stackedLineChart.dispose();
+    }
+    if (this.stackedLineChart1) {
+      this.stackedLineChart1.dispose();
+    }
   },
 
 
 }
 </script>
 
-<style>
+<style scoped>
+.chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 根据需要调整这个属性 */
+}
 
+.user-select-container {
+  flex-shrink: 0; /* 确保下拉列表不因图表大小变化而变化 */
+  width: 8vw; /* 根据需要设置宽度，或者使用百分比 */
+}
+
+/* 可以根据需要添加更多样式 */
 </style>
