@@ -21,7 +21,7 @@
                 <span>{{user.userName}}</span> <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item><router-link to="/PersonalInf" style="text-decoration: none; color: black;">个人信息</router-link></el-dropdown-item>
-                  <el-dropdown-item><router-link to="/login" style="text-decoration: none; color: black;">退出</router-link></el-dropdown-item>
+                  <el-dropdown-item style="text-decoration: none; color: black;" ><div @click="logout">退出</div></el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -201,6 +201,14 @@ export default {
     }
   },
 
+  watch: {
+    selectedUserId(newVal) {
+      if (newVal) {
+        this.initStackedLineChart1();
+      }
+    }
+  },
+
   components:{
     InterFace
   },
@@ -231,12 +239,23 @@ export default {
     },
   },
 
-  mounted() {
-    // 请求数据，不要在这里初始化图表
-    this.fetchTestingRecord();
+  created() {
+    if(!this.user){
+      this.$message.error("请先登录！！！")
+      this.$router.push('/login');
+    }else{
+      // 请求数据，不要在这里初始化图表
+      this.fetchTestingRecord();
+    }
   },
 
-  methods: { // 根据选中的课程更新图表
+  methods: {
+    logout() {
+      // 确保使用 this.$store 来分发 Vuex action
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
+    },
+    // 根据选中的课程更新图表
     updateChartByCourse() {
       this.stackedLineChart.dispose();
       // 重新准备图表配置项并更新图表
@@ -385,7 +404,7 @@ export default {
         series: courseInfo.users.map(user => ({
           name: this.userUserName[user.userId.toString()],
           type: 'line',
-          stack: 'score',
+          // stack: 'score',
           data: user.scores,
         }))
       };
@@ -409,6 +428,14 @@ export default {
       // 根据用户ID获取数据
       const userCourses = this.stackedLineData1[userId];
 
+      // 检查用户课程数据是否存在且非空
+      if (!userCourses || userCourses.length === 0) {
+        console.error('No course data available for user:', userId);
+        // 可以在这里添加处理空数据的逻辑，例如显示一个消息或使用一个空的图表配置
+        this.displayNoDataMessage();
+        return;
+      }
+
       // 初始化 ECharts 实例
       const myChart1 = echarts.init(this.$refs.stackedLineChart1);
 
@@ -422,7 +449,15 @@ export default {
       this.stackedLineChart1 = myChart1;
     },
 
-    // 准备特定用户的堆叠折线图配置项
+// 添加一个新的方法来显示没有数据的消息
+    displayNoDataMessage() {
+      // 可以是更新页面上的文本消息
+      this.noDataMessage = '您暂无考试记录.';
+      // 或者直接在图表的 DOM 容器中显示消息
+      this.$refs.stackedLineChart1.innerHTML = '您暂无考试记录.';
+    },
+
+// 准备堆叠折线图的配置项的示例方法
     prepareStackedLineOption1(userCourses) {
       // 假设 userCourses 是一个对象，包含了特定用户的所有课程数据
       const coursesData = Object.entries(userCourses.courses); // 获取所有的课程条目
@@ -458,11 +493,12 @@ export default {
         series: coursesData.map(([courseName, courseData]) => ({
           name: courseName,
           type: 'line',
-          stack: 'Total',
+          // stack: 'Total',
           data: courseData.scores,
         }))
       };
     },
+
   },
   beforeDestroy() {
     if (this.stackedLineChart) {
