@@ -9,6 +9,7 @@
           <div class="box">
             <div class="box_left">
               <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/MainPage' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item  style="font-weight: bold; color: black;">系统管理</el-breadcrumb-item>
                 <el-breadcrumb-item>用户管理</el-breadcrumb-item>
               </el-breadcrumb>
@@ -25,7 +26,7 @@
           </div>
         </el-header>
         <!--       主体部分-->
-        <el-main>
+        <el-main class="backgroundph">
 
           <!--        一些按钮-->
           <el-button type="success" @click = 'handleAdd_user' >添加</el-button>
@@ -236,7 +237,7 @@ export default {
         }); // 假设这是你的后端登录接口
         if (response.data.status === 'success') { // 根据后端返回的实际字段名进行修改
           this.$message.success(response.data.message || "操作成功")
-          this.dialogFormVisible = false
+          this.dialogFormVisible_userpassword = false
           this.load_user()
         } else {
           this.$message.error(response.data.message || "操作失败"); // 显示后端返回的错误信息或默认信息
@@ -253,7 +254,7 @@ export default {
         const response = await axios.post("http://127.0.0.1:5000/user_management/adduser", this.form); // 假设这是你的后端登录接口
         if (response.data.status === 'success') { // 根据后端返回的实际字段名进行修改
           this.$message.success(response.data.message || "操作成功")
-          this.dialogFormVisible = false
+          this.dialogFormVisible_adduser = false
           this.load_user()
         } else {
           this.$message.error(response.data.message || "操作失败"); // 显示后端返回的错误信息或默认信息
@@ -270,7 +271,7 @@ export default {
         const response = await axios.post("http://127.0.0.1:5000/user_management/changeuser", this.form); // 假设这是你的后端登录接口
         if (response.data.status === 'success') { // 根据后端返回的实际字段名进行修改
           this.$message.success(response.data.message || "操作成功")
-          this.dialogFormVisible = false
+          this.dialogFormVisible_changeuser = false
           this.load_user()
         } else {
           this.$message.error(response.data.message || "操作失败"); // 显示后端返回的错误信息或默认信息
@@ -332,5 +333,14 @@ export default {
 .box .box_right {
   flex: 1;
 }
+
+.backgroundph{
+  height: 100vh;
+  overflow: hidden;
+  background: url('../../assets/beijing.jpg');
+  background-size: cover; /* 调整背景图片填充方式 */
+  background-position: center; /* 调整背景图片位置 */
+}
+
 
 </style>

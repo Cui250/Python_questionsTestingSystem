@@ -132,8 +132,8 @@ export default {
             // 判断并且输出展示注册结果
             if (response.data.code === 200) {
               this.$message.success('注册成功');
-              this.user.id = response.data.id;
-              this.user.role = response.data.role;
+              this.user.id = response.data.latest_user.id;
+              this.user.role = response.data.latest_user.role;
               this.setUser(this.user);
               // 注册成功，跳转到登录页面
               this.$router.push('/MyTest');

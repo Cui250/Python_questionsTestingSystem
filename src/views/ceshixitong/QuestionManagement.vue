@@ -9,6 +9,7 @@
           <div class="box">
             <div class="box_left">
               <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/MainPage' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item style="font-weight: bold; color: black;">系统管理</el-breadcrumb-item>
                 <el-breadcrumb-item>题库管理</el-breadcrumb-item>
               </el-breadcrumb>
@@ -25,14 +26,14 @@
           </div>
         </el-header>
         <!--       主体部分-->
-        <el-main>
+        <el-main class="backgroundph">
           <!--        一些按钮-->
 
 
 
           <!--          这里的地址需要换-->
           <el-upload action="http://127.0.0.1:5000/question_management/import_questions" :show-file-list="false" :on-success="importExcel" style="display: inline-block">
-            <el-button type="primary"   style=" margin-left: 400px;" >导入<i class="el-icon-bottom"></i> </el-button>
+            <el-button type="primary"   style=" margin-left: 0px;" >导入<i class="el-icon-bottom"></i> </el-button>
           </el-upload>
 
           <el-button type="primary" @click = 'exportExcel'  style=" margin-left: 10px;"  >导出<i class="el-icon-top"></i> </el-button>
@@ -97,19 +98,20 @@
                 </template>
               </el-table-column>
 
-              <el-table-column label="操作" width="100">
+              <el-table-column label="操作" width="160">
                 <template slot-scope="scope">
                   <el-button type="primary" size="mini" @click="handleChange(scope.row)">编辑</el-button>
+                  <!--              气泡确认框-->
                   <el-popconfirm
                       class="ml-5"
-                      confirm-button-text="确定"
-                      cancel-button-text="我在想想"
+                      confirm-button-text='确定'
+                      cancel-button-text='我在想想'
                       icon="el-icon-info"
                       icon-color="red"
                       title="您确定删除吗？"
                       @confirm="del(scope.row.id)"
                   >
-                    <el-button size="mini" type="danger" slot="reference">删除</el-button>
+                    <el-button size="mini" type="danger" slot="reference" >删除</el-button>
                   </el-popconfirm>
                 </template>
               </el-table-column>
@@ -535,4 +537,13 @@ export default {
   overflow: hidden; /* 超出部分隐藏 */
   text-overflow: ellipsis; /* 显示省略号 */
 }
+
+.backgroundph{
+  height: 100vh;
+  overflow: hidden;
+  background: url('../../assets/beijing.jpg');
+  background-size: cover; /* 调整背景图片填充方式 */
+  background-position: center; /* 调整背景图片位置 */
+}
+
 </style>

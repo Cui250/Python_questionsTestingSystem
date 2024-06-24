@@ -9,6 +9,7 @@
           <div class="box">
             <div class="box_left">
               <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/MainPage' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item  style="font-weight: bold; color: black;">系统管理</el-breadcrumb-item>
                 <el-breadcrumb-item>题库分析</el-breadcrumb-item>
               </el-breadcrumb>
@@ -25,7 +26,7 @@
           </div>
         </el-header>
         <!--       主体部分-->
-        <el-main>
+        <el-main class="backgroundph">
           <div>
             <el-row :gutter="10">
               <el-col :span="12">
@@ -188,5 +189,12 @@ export default {
   flex: 1;
 }
 
+.backgroundph{
+  height: 100vh;
+  overflow: hidden;
+  background: url('../../assets/beijing.jpg');
+  background-size: cover; /* 调整背景图片填充方式 */
+  background-position: center; /* 调整背景图片位置 */
+}
 
 </style>

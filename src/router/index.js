@@ -10,6 +10,7 @@ import ExamPaper from "@/views/ceshixitong/ExamPaper.vue";
 import PaperSetting from "@/views/ceshixitong/PaperSetting.vue";
 import QuestionAnalysis from "@/views/ceshixitong/QuestionAnalysis.vue";
 import PersonalInf from "@/views/ceshixitong/PersonalInf.vue";
+import MainPage from "@/views/ceshixitong/MainPage.vue";
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,11 @@ const routes = [
     path: '/PersonalInf',
     name: 'personalinf',
     component:PersonalInf
+  },
+  {  //主页展示
+    path: '/MainPage',
+    name: 'mainpage',
+    component:MainPage
   },
 
 ]

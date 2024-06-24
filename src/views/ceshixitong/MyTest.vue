@@ -11,6 +11,7 @@
           <div class="box">
             <div class="box_left">
               <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/MainPage' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item style="font-weight: bold; color: black;">我的信息</el-breadcrumb-item>
                 <el-breadcrumb-item>我的考试</el-breadcrumb-item>
               </el-breadcrumb>
@@ -27,7 +28,7 @@
           </div>
         </el-header>
         <!--       主体部分-->
-        <el-main>
+        <el-main class="backgroundph">
 
           <!--        一些按钮-->
 
@@ -271,11 +272,11 @@ export default {
           this.selectedCourse = this.stackedLineData.courses[0].course;
           this.stackedLineData1 = response.data.dataForPerUser;
           this.userUserName = response.data.userUserName;
-          // this.selectedUserId = this.records.length > 0 ? this.records[0].userId : ''; // 假设取第一个记录的用户ID
           // 确保数据加载完成后再初始化图表
 
         }
-        this.selectedUserId = Object.keys(this.stackedLineData1)[0]; // 选择第一个用户ID
+        this.selectedUserId = this.user.id.toString();
+        // this.selectedUserId = Object.keys(this.stackedLineData1)[0]; // 选择第一个用户ID
         // 确保数据加载完成后再初始化图表
         this.initStackedLineChart();
         this.initStackedLineChart1();
@@ -489,4 +490,11 @@ export default {
 }
 
 /* 可以根据需要添加更多样式 */
+.backgroundph{
+  height: 100vh;
+  overflow: hidden;
+  background: url('../../assets/beijing.jpg');
+  background-size: cover; /* 调整背景图片填充方式 */
+  background-position: center; /* 调整背景图片位置 */
+}
 </style>

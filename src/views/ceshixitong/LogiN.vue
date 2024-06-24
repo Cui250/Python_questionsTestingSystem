@@ -72,13 +72,13 @@ export default {
               this.$message.success("欢迎回来," + this.user.userName + roleMessage + "!");
               // 登录成功，跳转到相应页面
               if(this.user.role === 'student'){
-                this.$router.push('MyTest');
+                this.$router.push('/MainPage');
               }
               else  if(this.user.role === 'teacher'){
-                this.$router.push('QuestionAnalysis');
+                this.$router.push('/MainPage');
               }
               else{
-                this.$router.push('/UserManagement');
+                this.$router.push('/MainPage');
               }
             } else {
               // 登录失败，显示错误消息
