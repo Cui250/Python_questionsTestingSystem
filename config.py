@@ -1,4 +1,4 @@
-#数据库的配置信息
+#数据库的配置信息(改成你自己的)
 hostname = '127.0.0.1'
 port = '3306'
 username = 'root'
@@ -14,12 +14,11 @@ SQLALCHEMY_DATABASE_URI = DB_URI
 # SQLALCHEMY_DATABASE_URI = DB_URI
 
 
-# dlujicapiwfndfgd
+# 邮箱smtp配置信息
 MAIL_SERVER = 'smtp.qq.com'
 MAIL_USE_SSL = True
 MAIL_PORT = 465
-MAIL_USERNAME = '2686036382@qq.com'
-MAIL_PASSWORD = 'dlujicapiwfndfgd'
-MAIL_DEFAULT_SENDER = '2686036382@qq.com'
-
-
+# 下面也是改成你的邮箱配置信息：用户名（邮箱地址），生成的授权码，默认发送邮箱（也是邮箱地址）
+MAIL_USERNAME = ' '
+MAIL_PASSWORD = ' '
+MAIL_DEFAULT_SENDER = ' '
