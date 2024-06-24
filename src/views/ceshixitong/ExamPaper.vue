@@ -19,7 +19,7 @@
                 <span>{{user.userName}}</span> <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item><router-link to="/PersonalInf" style="text-decoration: none; color: black;">个人信息</router-link></el-dropdown-item>
-                  <el-dropdown-item><router-link to="/login" style="text-decoration: none; color: black;">退出</router-link></el-dropdown-item>
+                  <el-dropdown-item style="text-decoration: none; color: black;" ><div @click="logout">退出</div></el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -322,11 +322,21 @@ export default {
     }
   },
   created() {
-    // 请求分页查询数据
-    this.load()
+    if(!this.user){
+      this.$message.error("请先登录！！！")
+      this.$router.push('/login');
+    }else{
+      // 请求分页查询数据
+      this.load();
+    }
   },
 
   methods: {
+    logout() {
+      // 确保使用 this.$store 来分发 Vuex action
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
+    },
     //请求数据，加载所有的试卷,并且拿回题库里面所有的课程信息
     load() {
       axios.get("http://127.0.0.1:5000/paperSetting/")
