@@ -378,6 +378,10 @@ export default {
       this.$message.error("请先登录！！！")
       this.$router.push('/login');
     }
+    else if((this.user.role !== "admin") && (this.user.role !== "teacher")){
+      this.$message.error("非法跳转！权限不足！");
+      this.$router.push('/MainPage');
+    }
     else{
       // 请求分页查询数据
       this.load();
