@@ -404,6 +404,8 @@ export default {
         series: courseInfo.users.map(user => ({
           name: this.userUserName[user.userId.toString()],
           type: 'line',
+          animationDuration: 3000,
+          // animationEasing: 'linear',
           // stack: 'score',
           data: user.scores,
         }))
@@ -493,6 +495,8 @@ export default {
         series: coursesData.map(([courseName, courseData]) => ({
           name: courseName,
           type: 'line',
+          animationDuration: 3000,
+          // animationEasing: 'linear',
           // stack: 'Total',
           data: courseData.scores,
         }))

@@ -124,13 +124,17 @@ const option1 = {
     { name:'试题数量',
       data: [],
       type: 'bar',
-      smooth: true
+      smooth: true,
+      animationDuration: 3000, // 柱状图的动画时长
+      animationEasing: 'quadraticOut', // 柱状图的动画缓动效果
     },
 
     { name:'平均试题难度',
       data: [],
       type: 'bar',
-      smooth: true
+      smooth: true,
+      animationDuration: 3000, // 柱状图的动画时长
+      animationEasing: 'quadraticOut', // 柱状图的动画缓动效果
     }
   ]
 };
