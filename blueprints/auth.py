@@ -46,6 +46,9 @@ def get_email_captcha():
     email = data.get('email')
     if not email:
         return jsonify({'code': 400, 'message': '邮箱不能为空'}), 400
+    # 验证用户是否已存在
+    if userModel.query.filter_by(email=email).first():
+        return jsonify({'code': 400, 'message': '邮箱已被注册'}), 400
 
     # 生成验证码
     captcha = ''.join(random.sample(string.digits, 4))
@@ -80,9 +83,7 @@ def register():
     if not db_captcha or db_captcha.captcha != captcha:
         return jsonify({'code': 400, 'message': '验证码错误或已过期'}), 400
 
-    # 验证用户是否已存在
-    if userModel.query.filter_by(email=email).first():
-        return jsonify({'code': 400, 'message': '邮箱已被注册'}), 400
+
 
         # 注册用户
     user = userModel(email=email, username=userName, password=generate_password_hash(password))
