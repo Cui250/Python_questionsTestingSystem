@@ -15,8 +15,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 #（固定，固定，url前缀）
 # 创建蓝图对象，设置蓝图下的路由的前缀
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-
 #要访问下面的视图函数，路径为： /auth/login
 @bp.route('/login', methods=['POST'])
 def login():
@@ -27,21 +25,17 @@ def login():
     email = data.get('email')
     password = data.get('password')
     # print(email, password)
-
     # 检查邮箱和密码是否提供
     if not email or not password:
         return jsonify({'code': 400, 'message': '邮箱和密码不能为空'})
-
     # 验证用户
     user = userModel.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
         # 用户不存在或密码错误
         return jsonify({'code': 400, 'message': '用户名或密码错误'})
-
     id = user.id
     username = user.username
     role = user.role
-
     # 返回成功响应
     return jsonify({'email': email, 'userId': id, 'userName': username, 'role': role, 'code': 200, 'message': '登录成功'})
 
