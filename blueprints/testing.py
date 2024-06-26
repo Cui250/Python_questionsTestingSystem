@@ -45,7 +45,7 @@ def question():
             record["answerSituation"] = test_result.answer_situation
             record["testingTime"] = test_result.testingTime
             records.append(record)
-        print("考试记录：",records)
+        # print("考试记录：",records)
 
 
         def prepare_data(exam_records):
@@ -155,8 +155,8 @@ def question():
         # 执行查询并获取所有匹配的用户
         users = users_query.all()
         userUserName = {}
-        print('json结果：',json.dumps(stacked_line_chart_data, ensure_ascii=False, indent=2))
-        print('json2:',processed_data)
+#         print('json结果：',json.dumps(stacked_line_chart_data, ensure_ascii=False, indent=2))
+#         print('json2:',processed_data)
         for user in users:
             userUserName[str(user.id)] = user.username
         # print('user-name:', userUserName)
@@ -179,7 +179,7 @@ def question():
             testPapers = testPaperModel.query.with_entities(testPaperModel.paper_id).all()
             for testPaper in testPapers:
                 testingPaperIds.append(testPaper.paper_id)
-            print("传回前端的试卷id:",testingPaperIds)
+#             print("传回前端的试卷id:",testingPaperIds)
             return jsonify({'code': 200, 'testingPaperIds': testingPaperIds}), 200
 
 
@@ -190,12 +190,12 @@ def question():
                 scoreDate0 = {}
                 time_str = str(testingResult.testingTime)
                 score_str = str(testingResult.score)
-                print(time_str)
+#                 print(time_str)
                 scoreDate0["date"] = time_str
                 scoreDate0["score"] = score_str
                 scoreDate.append(scoreDate0)
-            print(scoreDate)
-            print(scoreDate[0]["date"],scoreDate[0]["score"])
+#             print(scoreDate)
+#             print(scoreDate[0]["date"],scoreDate[0]["score"])
             return jsonify({'code': 200, 'scoreDate': scoreDate}), 200
 
 
@@ -203,7 +203,7 @@ def question():
         if 'paperId' in request.get_json() and 'answers' not in request.get_json():
             data = request.get_json()
             paper_id = int(data.get('paperId'))
-            print("试卷id：",paper_id)
+            # print("试卷id：",paper_id)
             info = choiceQuestionModel.query.all()
             questions = {}
             for i in info:
@@ -257,7 +257,7 @@ def question():
             return jsonify({'code': 200, 'questions': questions_dict, "course": course, "paperId": paper_id}), 200
         # 如果前端提交了答案，进行验证后返回结果
         if 'answers' in request.get_json():
-            print(len(questions_dict0))
+            # print(len(questions_dict0))
             data = request.get_json()
             paper_id = int(data.get('paperId'))
             test_paper = testPaperModel.query.filter_by(paper_id=paper_id).first()
@@ -312,7 +312,7 @@ def question():
                 results[str(answer[0])] = result
             score = float(scorePerChoiceQuestion) * countForChoiceQuestion + float(scorePerJudgmentQuestion) * countForJudgmentQuestion
             results["score"] = str(score)
-            print(results)
+            # print(results)
 
             testing_result = testingResultModel(user_id=user["id"], paper_id=paper_id, score=score, answer_situation=answer_situations)
             db.session.add(testing_result)

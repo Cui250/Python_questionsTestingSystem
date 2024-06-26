@@ -51,7 +51,7 @@ def paperSetting():
 
     if request.method == 'POST':
         data = request.get_json()
-        print("前端传回数据：",data)
+        # print("前端传回数据：",data)
 
         # 如果本次请求是为了随机组卷
         if 'scorePerQuestion' in data and 'isAdd' not in data:
@@ -106,10 +106,10 @@ def paperSetting():
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()  # 发生异常时回滚
-                print("创建试卷失败：", e)
+                # print("创建试卷失败：", e)
                 return jsonify({"code": 500, "error": "创建试卷失败"})
 
-            print("选择题id：", choiceQuestionIds, "判断题id:", judgmentQuestionIds)
+            # print("选择题id：", choiceQuestionIds, "判断题id:", judgmentQuestionIds)
             return jsonify({"code": 200}), 200
 
 
@@ -118,10 +118,10 @@ def paperSetting():
             paperId = str(data['paperId'])
             questionIdsStr = data['questionIds']
             questionIds = questionIdsStr.split(',')
-            print("前端传来的题目id:", questionIds)
-            print(paperId)
+            # print("前端传来的题目id:", questionIds)
+            # print(paperId)
             testingPaper = testPaperModel.query.filter_by(paper_id=paperId).first()
-            print(testingPaper)
+            # print(testingPaper)
             choicequestions = choiceQuestionModel.query.filter(choiceQuestionModel.id.in_(questionIds)).all()
             scorePerQuestion = testingPaper.score_per_question
             questions = []
@@ -138,7 +138,7 @@ def paperSetting():
                 question["type"] = choicequestion.type
                 questions.append(question)
             # print(questions)
-            print("每题分数：",scorePerQuestion)
+            # print("每题分数：",scorePerQuestion)
 
             return jsonify({"code": 200, "questions": questions, "scorePerQuestion": scorePerQuestion}), 200
         # 如果此次请求是要新增题目
@@ -176,7 +176,7 @@ def paperSetting():
                 return jsonify({"code": 200}), 200
     if request.method == 'DELETE':
         data = request.get_json()
-        print("前端删除时传回数据：", data)
+        # print("前端删除时传回数据：", data)
 
         try:
             # 尝试获取要删除的记录

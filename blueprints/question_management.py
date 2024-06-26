@@ -51,7 +51,7 @@ def deletequestion():
     response_object = {'status': 'fail', 'message': ''}
     if request.method == 'DELETE':
         post_data = request.get_json()
-        print('调用删除试题方传过来的参数是：', post_data)
+        # print('调用删除试题方传过来的参数是：', post_data)
         id = post_data.get('id')
         question = choiceQuestionModel.query.filter_by(id=id).first()
         if question:
@@ -72,7 +72,7 @@ def editquestion():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        print('调用编辑试题方法传过来的参数是：', post_data)
+        # print('调用编辑试题方法传过来的参数是：', post_data)
         question = post_data.get('question')
         option1 = post_data.get('option1')
         option2 = post_data.get('option2')
@@ -122,7 +122,7 @@ def editquestion_new():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        print('调用编辑试题方法传过来的参数是：', post_data)
+        # print('调用编辑试题方法传过来的参数是：', post_data)
         question = post_data.get('question')
         option ='正确\n错误'
         answer = post_data.get('answer')
@@ -184,7 +184,7 @@ def analysis_bank():
             'course_stats': [{'name': course, 'value': count} for course, count in course_stats],
             'level_stats': [{'course': course, 'average_level': avg} for course, avg in level_stats]
         }
-        print(result)
+        # print(result)
         return jsonify(result), 200
 
     except Exception as e:
@@ -266,7 +266,7 @@ def import_questions():
 
             )
             # 添加到数据库会话
-            print(question)
+            # print(question)
             db.session.add(question)
         # # 提交事务
         db.session.commit()
