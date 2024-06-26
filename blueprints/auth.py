@@ -79,7 +79,7 @@ def register():
 
     # 验证验证码
     db_captcha = emailCaptchaModel.query.filter_by(email=email).first()
-    print("前端：",captcha ,"后端",db_captcha.captcha)
+    # print("前端：",captcha ,"后端",db_captcha.captcha)
     if not db_captcha or db_captcha.captcha != captcha:
         return jsonify({'code': 400, 'message': '验证码错误或已过期'}), 400
 
@@ -92,6 +92,6 @@ def register():
 
     recent_users = db.session.query(userModel).order_by(userModel.register_time.desc()).limit(1).all()
     latest_user = {"id": recent_users[0].id, "role": recent_users[0].role}
-    print(latest_user)
+    # print(latest_user)
 
     return jsonify({'code': 200, 'message': '注册成功', "latest_user": latest_user}), 200
