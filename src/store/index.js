@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-// 假设您已经定义了用户登录状态和必要的 mutations, actions
 export default new Vuex.Store({
     state: {
         user: JSON.parse(window.localStorage.getItem('user')) || null, // 从 localStorage 初始化用户状态

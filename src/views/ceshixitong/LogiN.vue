@@ -70,16 +70,8 @@ export default {
                 roleMessage = "管理员"
               }
               this.$message.success("欢迎回来," + this.user.userName + roleMessage + "!");
-              // 登录成功，跳转到相应页面
-              if(this.user.role === 'student'){
+              // 登录成功，跳转到主页
                 this.$router.push('/MainPage');
-              }
-              else  if(this.user.role === 'teacher'){
-                this.$router.push('/MainPage');
-              }
-              else{
-                this.$router.push('/MainPage');
-              }
             } else {
               // 登录失败，显示错误消息
               this.$message.error("用户名或密码错误！");

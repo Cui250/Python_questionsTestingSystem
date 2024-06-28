@@ -382,7 +382,7 @@ export default {
             }
             else {
               // 如果响应不是200，使用throw抛出错误
-              throw new Error(response.data.message || '开始考试失败');
+              throw new Error(response.data.message || '随机组卷失败');
             }
           })
           .catch(error => {
@@ -411,8 +411,9 @@ export default {
     // 添加方法
     handleAdd(){
       this.dialogFormVisible = true
-      this.form={}
-      //   不对标志位isAdd进行设置，告知后端此次操作为新增
+      this.form={};
+      this.isAdd = 'true';
+      //   设置标志isAdd = 'true',告知后端本次操作是新增
     },
     randomAdd(){
       this.dialogFormForRandomVisible = true
@@ -496,7 +497,7 @@ export default {
             }
             else {
               // 如果响应不是200，使用throw抛出错误
-              throw new Error(response.data.message || '开始考试失败');
+              throw new Error(response.data.message || '试卷获取失败');
             }
           })
           .catch(error => {
@@ -534,7 +535,7 @@ export default {
       const questionSpacing = 15; // 每个问题之后的空间高度
 
       for (let i = 0; i < this.testingPaperDetail.questions.length; i++) {
-        // 如果是每6题之后，或者当前位置加上问题高度超出页面底部，则添加新页面
+        // 如果是每5题之后，或者当前位置加上问题高度超出页面底部，则添加新页面
         if ((i % 5 === 0 && i !== 0) || currentY + questionSpacing + 10 > pdf.internal.pageSize.height) {
           pdf.addPage();
           // 重置 currentY 为标题下方的位置

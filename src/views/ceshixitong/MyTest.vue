@@ -459,7 +459,7 @@ export default {
       this.$refs.stackedLineChart1.innerHTML = '您暂无考试记录.';
     },
 
-// 准备堆叠折线图的配置项的示例方法
+// 准备堆叠折线图的配置项的方法
     prepareStackedLineOption1(userCourses) {
       // 假设 userCourses 是一个对象，包含了特定用户的所有课程数据
       const coursesData = Object.entries(userCourses.courses); // 获取所有的课程条目
