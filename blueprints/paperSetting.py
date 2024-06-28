@@ -141,7 +141,7 @@ def paperSetting():
             # print("每题分数：",scorePerQuestion)
 
             return jsonify({"code": 200, "questions": questions, "scorePerQuestion": scorePerQuestion}), 200
-        # 如果此次请求是要新增题目
+        # 如果此次请求是要新增试卷
         if 'isAdd' in data:
             scorePerQuestion = data['scorePerQuestion']
             course = data['form']['course']
@@ -161,17 +161,18 @@ def paperSetting():
             else:
                 questionIds = f"{choiceQuestionIds},{judgmentQuestionIds}".strip(',')
             if data['isAdd'] == 'true':
-                choiceQuestion = testPaperModel(course=course, question_id=questionIds, score_per_question=scorePerQuestion)
-                db.session.add(choiceQuestion)
+                testPaper = testPaperModel(course=course, question_id=questionIds, score_per_question=scorePerQuestion)
+                db.session.add(testPaper)
                 db.session.commit()
                 return jsonify({"code": 200}), 200
             # 如果不是新增，就是修改试卷信息
             else:
                 paperId = data['form']['paperId']
-                choiceQuestion = testPaperModel.query.filter_by(paper_id=paperId).first()
-                choiceQuestion.question_id = questionIds
-                choiceQuestion.course = course
-                db.session.add(choiceQuestion)
+                testPaper = testPaperModel.query.filter_by(paper_id=paperId).first()
+                testPaper.question_id = questionIds
+                testPaper.score_per_question = scorePerQuestion
+                testPaper.course = course
+                db.session.add(testPaper)
                 db.session.commit()
                 return jsonify({"code": 200}), 200
     if request.method == 'DELETE':

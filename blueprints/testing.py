@@ -54,10 +54,8 @@ def question():
                 'courses': [],
                 'allDates': []  # 存储所有日期的列表，允许重复
             }
-
             # 用于存储所有日期的集合，如果日期允许重复，这个集合可以是列表
             all_dates_list = []
-
             # 遍历考试记录数据
             for record in exam_records:
                 course = record['course']
@@ -99,34 +97,29 @@ def question():
                             'dates': [testing_time]
                         }]
                     })
-
             # 由于允许重复，直接使用 all_dates_list 作为 allDates
             stacked_line_data['allDates'] = all_dates_list
-
             # 如果需要排序，可以对 allDates 进行排序
             stacked_line_data['allDates'].sort()
-
+            # print(stacked_line_data)
             return stacked_line_data
 
 
         def prepare_data_for_user(exams_data):
             # 创建一个字典来存储按用户分类的数据
             data_for_per_user = {}
-
             # 遍历每条考试记录
             for record in exams_data:
                 user_id = record['userId']
                 course = record['course']
                 score = float(record['score'])
                 testing_time = record['testingTime'].strftime('%Y-%m-%d')
-
                 # 如果用户ID不在字典中，初始化用户数据
                 if user_id not in data_for_per_user:
                     data_for_per_user[user_id] = {
                         'userId': user_id,
                         'courses': {}  # 存储该用户所有课程的数据
                     }
-
                 # 如果课程不在用户课程字典中，初始化课程数据
                 if course not in data_for_per_user[user_id]['courses']:
                     data_for_per_user[user_id]['courses'][course] = {
@@ -134,18 +127,15 @@ def question():
                         'scores': [],
                         'dates': []
                     }
-
                 # 将分数和日期添加到相应的课程中
                 data_for_per_user[user_id]['courses'][course]['scores'].append(score)
                 data_for_per_user[user_id]['courses'][course]['dates'].append(testing_time)
-
             # 返回处理后的数据
+            # print(data_for_per_user)
             return data_for_per_user
-
-        # 使用示例
+        # 调用两个函数
         processed_data = prepare_data_for_user(records)
         stacked_line_chart_data = prepare_data(records)
-
         # 使用in_()查询多个用户
         userIds = []
         for record in records:
@@ -155,15 +145,8 @@ def question():
         # 执行查询并获取所有匹配的用户
         users = users_query.all()
         userUserName = {}
-#         print('json结果：',json.dumps(stacked_line_chart_data, ensure_ascii=False, indent=2))
-#         print('json2:',processed_data)
         for user in users:
             userUserName[str(user.id)] = user.username
-        # print('user-name:', userUserName)
-        # 打印结果
-        # print(data)
-
-
         # 返回 JSON 格式的题目数据
         return jsonify({'code': 200, 'records': records,'dataForPerCourse': stacked_line_chart_data,
                         'dataForPerUser': processed_data, 'userUserName': userUserName}), 200
